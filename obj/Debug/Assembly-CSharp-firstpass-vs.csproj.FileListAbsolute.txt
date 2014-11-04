@@ -1,0 +1,22 @@
+F:\OneDrive\CameraControl\Temp\bin\Debug\Assembly-CSharp-firstpass.dll
+F:\OneDrive\CameraControl\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+F:\OneDrive\CameraControl\Temp\bin\Debug\UnityEditor.dll
+F:\OneDrive\CameraControl\Temp\bin\Debug\UnityEngine.dll
+F:\OneDrive\CameraControl\Temp\bin\Debug\Mono.Cecil.dll
+F:\OneDrive\CameraControl\Temp\bin\Debug\nunit.framework.dll
+F:\OneDrive\CameraControl\Temp\bin\Debug\Unity.DataContract.dll
+F:\OneDrive\CameraControl\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+F:\OneDrive\CameraControl\obj\Debug\Assembly-CSharp-firstpass-vs.csprojResolveAssemblyReference.cache
+F:\OneDrive\CameraControl\obj\Debug\Assembly-CSharp-firstpass.dll
+F:\OneDrive\CameraControl\obj\Debug\Assembly-CSharp-firstpass.pdb
+F:\Moje Dokumenty\CameraControl\Temp\bin\Debug\Assembly-CSharp-firstpass.dll
+F:\Moje Dokumenty\CameraControl\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+F:\Moje Dokumenty\CameraControl\Temp\bin\Debug\UnityEditor.dll
+F:\Moje Dokumenty\CameraControl\Temp\bin\Debug\UnityEngine.dll
+F:\Moje Dokumenty\CameraControl\Temp\bin\Debug\Mono.Cecil.dll
+F:\Moje Dokumenty\CameraControl\Temp\bin\Debug\nunit.framework.dll
+F:\Moje Dokumenty\CameraControl\Temp\bin\Debug\Unity.DataContract.dll
+F:\Moje Dokumenty\CameraControl\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+F:\Moje Dokumenty\CameraControl\obj\Debug\Assembly-CSharp-firstpass-vs.csprojResolveAssemblyReference.cache
+F:\Moje Dokumenty\CameraControl\obj\Debug\Assembly-CSharp-firstpass.dll
+F:\Moje Dokumenty\CameraControl\obj\Debug\Assembly-CSharp-firstpass.pdb
