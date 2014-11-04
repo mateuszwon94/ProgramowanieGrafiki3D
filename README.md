@@ -1,2 +1,0 @@
-ProgramowanieGrafiki3D
-======================
