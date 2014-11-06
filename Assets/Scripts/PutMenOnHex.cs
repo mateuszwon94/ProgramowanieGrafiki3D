@@ -10,7 +10,7 @@ public class PutMenOnHex : MonoBehaviour {
 		List<GameObject> path = new List<GameObject>();
 		int x, y;
 
-		for (int i = 0; i < Random.Range(4500, 5000); i++) {
+		for (int i = 0; i < Random.Range(500, 1000); i++) {
 			x = Random.Range(0, 74);
 			y = Random.Range(0, 74);
 			if (terrain.GetComponent<SpawnHexes>().hexGrid[x, y] != null && terrain.GetComponent<SpawnHexes>().hexGrid[x, y].GetComponent<hexProperties>().IsAvaliable()) {

@@ -37,21 +37,21 @@ public class PathFindingAStar : MonoBehaviour {
 			return (int)(Math.Sqrt((double)(x * x + y * y)));
 		}*/
 
-		/*public int HeursticFunc(GameObject endHex) {
+		public int HeursticFunc(GameObject endHex) {
 			double x = endHex.GetComponent<hexProperties>().hexPosX - hex.GetComponent<hexProperties>().hexPosX;
 			double y = endHex.GetComponent<hexProperties>().hexPosY - hex.GetComponent<hexProperties>().hexPosY;
 			double z = endHex.GetComponent<hexProperties>().hexPosZ - hex.GetComponent<hexProperties>().hexPosZ;
 			return (int)(Math.Sqrt((double)(x * x + y * y + z * z)));
-		}*/
+		}
 
 		//PRZESZACOWUJE
 		/*public int HeursticFunc(GameObject endHex) {
 			return Math.Abs(endHex.GetComponent<hexProperties>().hexPosX - hex.GetComponent<hexProperties>().hexPosX) + Math.Abs(endHex.GetComponent<hexProperties>().hexPosY - hex.GetComponent<hexProperties>().hexPosY);
 		}*/
 
-		public int HeursticFunc(GameObject endHex) {
+		/*public int HeursticFunc(GameObject endHex) {
 			return Math.Abs(endHex.GetComponent<hexProperties>().hexPosX - hex.GetComponent<hexProperties>().hexPosX) + Math.Abs(endHex.GetComponent<hexProperties>().hexPosY - hex.GetComponent<hexProperties>().hexPosY) + Math.Abs(endHex.GetComponent<hexProperties>().hexPosZ - hex.GetComponent<hexProperties>().hexPosZ);
-		}
+		}*/
 
 		//NIE DZIALA NAJGORZEJ ALE CHYBA TAMTE DWA SA LEPSZE
 		/*public int HeursticFunc(GameObject endHex) {
@@ -76,7 +76,7 @@ public class PathFindingAStar : MonoBehaviour {
 				else
 					return dx + dy - (int)Math.Floor(dx / 2f);
 			}*/
-		
+		 
 		//PODOBNIE DO PRZESZACOWANIA CHODZI TROSZKU PO PROSTYCH BARDZO
 		/*public int HeursticFunc(GameObject endHex) {
 			int yDistance = Math.Abs((hex.GetComponent<hexProperties>().hexPosY) - (endHex.GetComponent<hexProperties>().hexPosY));
@@ -147,7 +147,7 @@ public class PathFindingAStar : MonoBehaviour {
 				}
 
 				if (presentHex != null && (presentHex.GetComponent<hexProperties>().IsAvaliable()) && !(isInListClosed)) {
-					listOpened.Add(new pathFinderNode(presentHex, endHex, costFromNodeToNode, startHexNode));
+					listOpened.Add(new pathFinderNode(presentHex, endHex, costFromNodeToNode, presentHexNode));
 				}
 			}
 			listOpened.Reverse();
@@ -155,8 +155,12 @@ public class PathFindingAStar : MonoBehaviour {
 		}
 
 		List<GameObject> path = new List<GameObject>();
-		foreach (pathFinderNode HexNode in listClosed) {
+		/*foreach (pathFinderNode HexNode in listClosed) {
 			path.Add(HexNode.hex);
+		}*/
+		listClosed.Reverse();
+		for (pathFinderNode current = listClosed[0]; current != null; current = current.father) {
+			path.Add(current.hex);
 		}
 
 		listOpened.Clear();
