@@ -24,10 +24,12 @@ public class SpawnHexes : MonoBehaviour {
 	void Awake() {
 		hexGrid = new GameObject[size, size];
 		GameObject grid = new GameObject ("Grid");
+
 		for (int i = 0; i < size; i++) {
 			spawnX = sqrt3*i;
 			GameObject hexColumn = new GameObject ("Hex Column "+i.ToString());
 			hexColumn.transform.parent = grid.transform;
+
 			for (int j = 0; j < size; j++) {
 				currentHex = (GameObject)Instantiate(hex, new Vector3(startPosX+spawnX,startPosY,startPosZ+spawnZ), Quaternion.identity);
 				currentHex.transform.parent = hexColumn.transform;
@@ -50,55 +52,55 @@ public class SpawnHexes : MonoBehaviour {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (hexGrid[i, j] != null) {
-					// odwrotnie do ruchu wskazowek zegara od elementu pod hexem
-					try {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[0] = hexGrid[i, j - 1];
-					}
-					catch (IndexOutOfRangeException) {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[0] = null;
-					}
-
-					try {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[1] = hexGrid[i - 1, j];
-					}
-					catch (IndexOutOfRangeException) {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[1] = null;
-					}
-
-					try {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[2] = hexGrid[i - 1, j + 1];
-					}
-					catch (IndexOutOfRangeException) {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[2] = null;
-					}
-
-					try {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[3] = hexGrid[i, j + 1];
-					}
-					catch (IndexOutOfRangeException) {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[3] = null;
-					}
-
-					try {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[4] = hexGrid[i + 1, j];
-					}
-					catch (IndexOutOfRangeException) {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[4] = null;
-					}
-
-					try {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[5] = hexGrid[i + 1, j - 1];
-					}
-					catch (IndexOutOfRangeException) {
-						hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors[5] = null;
-					}
-
+					hexGrid[i, j].GetComponent<hexProperties>().hexNeighbors = GetNeighbors(hexGrid[i, j]);
 				}
-
 			}
-
 		}
-
 	}
 
+	GameObject [] GetNeighbors (GameObject currentHex) {
+
+		hexProperties currentProperties = currentHex.GetComponent<hexProperties>();
+		int hexPosX = currentProperties.hexPosX;
+		int hexPosY = currentProperties.hexPosY;
+
+		GameObject [] neighbors = new GameObject[6];
+		
+		try {
+			neighbors[0] = hexGrid[hexPosX, hexPosY - 1];
+		}
+		catch (IndexOutOfRangeException) {}
+		try {
+			neighbors[1] = hexGrid[hexPosX - 1, hexPosY];
+		}
+		catch (IndexOutOfRangeException) {}
+		try {
+			neighbors[2] = hexGrid[hexPosX - 1, hexPosY + 1];
+		}
+		catch (IndexOutOfRangeException) {}
+		try {
+			neighbors[3] = hexGrid[hexPosX, hexPosY + 1];
+		}
+		catch (IndexOutOfRangeException) {}
+		try {
+			neighbors[4] = hexGrid[hexPosX + 1, hexPosY];
+		}
+		catch (IndexOutOfRangeException) {}
+		try {
+			neighbors[5] = hexGrid[hexPosX + 1, hexPosY - 1];
+		}
+		catch (IndexOutOfRangeException) {}
+
+		return neighbors;
+	}
+
+	public GameObject FindHexWithPosition (float x, float y) {
+		int q = Mathf.RoundToInt( ((1/3 * sqrt3 * x) - (1/3 * y)) / size );
+		int r = Mathf.RoundToInt( 2/3 * y / size );
+
+		GameObject temp = hexGrid[q, r];
+
+		if (temp == null) Debug.LogError ("Cannot find appropriate hex.");
+		return temp;
+	}
 }
