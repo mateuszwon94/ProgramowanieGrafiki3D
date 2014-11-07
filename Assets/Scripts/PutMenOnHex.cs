@@ -2,10 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/* 
+ * Ten skrypt nic nie robi w sensie dalszego rozwuju gry
+ * Jest tymczasowy na użytek debugowy, wiec komentowac mi sie go nie chce.
+ * :D
+*/
+
 public class PutMenOnHex : MonoBehaviour {
 
 	public GameObject terrain;
-	// Use this for initialization
+
 	void Start () {
 		List<GameObject> path = new List<GameObject>();
 		int x, y;
