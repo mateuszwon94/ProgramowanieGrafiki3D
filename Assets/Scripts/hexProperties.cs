@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿	using System.Collections;
 using UnityEngine;
 
 public class hexProperties : MonoBehaviour {
@@ -66,8 +66,8 @@ public class hexProperties : MonoBehaviour {
 	}
 
 	public void PutOnHex(GameObject Sth) { //kladzie obiekt na hexie
-		Sth.transform.position.Set(0f, 0f, 0f);
-		Sth.transform.Translate(gameObject.transform.position.x, gameObject.transform.position.y + GameObject.FindGameObjectWithTag("Terrain").GetComponent<SpawnHexes>().hex.GetComponent<HexMesh>().heightOverTerrain, gameObject.transform.position.z);
+
+		Sth.transform.position = transform.position;
 		onHex = Sth;
 	}
 

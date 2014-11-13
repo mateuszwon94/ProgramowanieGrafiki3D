@@ -37,14 +37,9 @@ public class MouseOnHex : MonoBehaviour {
 
 			previousHex = currentHex;
 
-			if ((x + y > howManyToCut - 1) && (x + y < 2 * size - howManyToCut - 1) ) {
-				try {
-					currentHex = gameObject.GetComponent<SpawnHexes>().hexGrid[x, y];
-					currentHex.GetComponent<hexProperties>().ChangeHexColor(Color.cyan);
-				}
-				catch (IndexOutOfRangeException) {
-					currentHex = null;
-				}
+			if ((x + y > howManyToCut) && (x + y < 2 * size - howManyToCut - 2) ) {
+				currentHex = gameObject.GetComponent<SpawnHexes>().hexGrid[x, y];
+				currentHex.GetComponent<hexProperties>().ChangeHexColor(Color.cyan);
 			}
 			else {
 				currentHex = null;
