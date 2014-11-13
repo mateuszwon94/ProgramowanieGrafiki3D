@@ -14,6 +14,8 @@ public class hexProperties : MonoBehaviour {
 	public int hexPosY;				//pozycja Y hexa na plaszczyznie
 	public int hexPosZ;				//uzywane w niektorych algorytmach (ulatwia obliczenia)
 
+	public Vector2 centerOfHex;
+
 	public bool isMouseOn = false;	//czy myszka jest nad hexem
 	public bool isToggle = false;	//czy hex zostal zaznaczony
 
@@ -23,19 +25,30 @@ public class hexProperties : MonoBehaviour {
 		 * Wykorzystywane przez funkcje usuwajaca niepotrzebne hexy
 		*/
 		int howManyToCut;
-		if ((size%2)==1) {
-			howManyToCut = size/2;
+		if ((size % 2) == 1) {
+			howManyToCut = size / 2;
 		}
 		else {
-			howManyToCut = (size/2) -1;
+			howManyToCut = (size / 2) - 1;
 		}
 
-		if ( hexPosX + hexPosY < howManyToCut ) {
+		if (hexPosX + hexPosY < howManyToCut) {
 			isVisable = false;
 		}
-		else if (hexPosX + hexPosY > 2*size-howManyToCut-2) {
+		else if (hexPosX + hexPosY > 2 * size - howManyToCut - 2) {
 			isVisable = false;
 		}
+	}
+
+	public void ChangeAvaliablity() {
+		if (isAvaliable)
+			isAvaliable = false;
+		else
+			isAvaliable = true;
+	}
+
+	public void ChangeAvaliablity(bool forWhat) {
+		isAvaliable = forWhat;
 	}
 
 	public bool IsAvaliable() { //Zwraca dostepnosc hexa
@@ -61,5 +74,5 @@ public class hexProperties : MonoBehaviour {
 	public void ChangeHexColor(Color color) { //zmienia kolor hexa (napisane by ulatwic se zycie i nie pieprzyc z tak dlugim kodem)
 		gameObject.GetComponent<MeshRenderer>().materials[0].color = color;
 	}
-    
+
 }

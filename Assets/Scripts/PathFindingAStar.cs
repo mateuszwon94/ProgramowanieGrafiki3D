@@ -7,7 +7,7 @@ public class PathFindingAStar : MonoBehaviour {
 
 	class pathFinderNode : IComparable<pathFinderNode> {
 		//Klasa przechowuje wszystkie potrzebne informacje
-		public GameObject hex; 
+		public GameObject hex;
 		public pathFinderNode father; //hex z ktorego jest najblizej do trzmanego przez ta instancje hexa
 
 		public int costToNode; //Wpisany koszt przejscia od pozatku do obecnego hexa
@@ -65,47 +65,12 @@ public class PathFindingAStar : MonoBehaviour {
 		/*public int HeursticFunc(GameObject endHex) {
 			return Math.Abs(endHex.GetComponent<hexProperties>().hexPosX - hex.GetComponent<hexProperties>().hexPosX) + Math.Abs(endHex.GetComponent<hexProperties>().hexPosY - hex.GetComponent<hexProperties>().hexPosY) + Math.Abs(endHex.GetComponent<hexProperties>().hexPosZ - hex.GetComponent<hexProperties>().hexPosZ);
 		}*/
-
-		//NIE DZIALA NAJGORZEJ ALE CHYBA TAMTE DWA SA LEPSZE
-		/*public int HeursticFunc(GameObject endHex) {
-			int xSteps = Math.Abs(hex.GetComponent<hexProperties>().hexPosX - endHex.GetComponent<hexProperties>().hexPosX);
-			int ySteps = Math.Abs(hex.GetComponent<hexProperties>().hexPosY - endHex.GetComponent<hexProperties>().hexPosY);
-
-			return Math.Max(xSteps, ySteps) + Math.Abs(xSteps - ySteps);
-		}*/
-
-		//BAAAAARDZO ZLY ZWRACA ZAPETLAJACE SIE SCIEZKI
-		/*public int HeursticFunc(GameObject endHex) {
-			if (hex.GetComponent<hexProperties>().hexPosX == endHex.GetComponent<hexProperties>().hexPosX)
-				return hex.GetComponent<hexProperties>().hexPosX - endHex.GetComponent<hexProperties>().hexPosX;
-			else if (hex.GetComponent<hexProperties>().hexPosY == endHex.GetComponent<hexProperties>().hexPosY)
-				return hex.GetComponent<hexProperties>().hexPosY - endHex.GetComponent<hexProperties>().hexPosY;
-			else {
-				int dx = Math.Abs(hex.GetComponent<hexProperties>().hexPosX - endHex.GetComponent<hexProperties>().hexPosX);
-				int dy = Math.Abs(hex.GetComponent<hexProperties>().hexPosY - endHex.GetComponent<hexProperties>().hexPosY);
-
-				if (hex.GetComponent<hexProperties>().hexPosY < endHex.GetComponent<hexProperties>().hexPosY)
-					return dx + dy - (int)Math.Ceiling(dx / 2f);
-				else
-					return dx + dy - (int)Math.Floor(dx / 2f);
-			}*/
-		 
-		//PODOBNIE DO PRZESZACOWANIA CHODZI TROSZKU PO PROSTYCH BARDZO
-		/*public int HeursticFunc(GameObject endHex) {
-			int yDistance = Math.Abs((hex.GetComponent<hexProperties>().hexPosY) - (endHex.GetComponent<hexProperties>().hexPosY));
-			int xDistance = Math.Abs(hex.GetComponent<hexProperties>().hexPosX - endHex.GetComponent<hexProperties>().hexPosX);
-			int maxDistance = Math.Max(xDistance,yDistance);
-
-			int something = Math.Abs(-endHex.GetComponent<hexProperties>().hexPosY + endHex.GetComponent<hexProperties>().hexPosX + hex.GetComponent<hexProperties>().hexPosY - hex.GetComponent<hexProperties>().hexPosX);
-			return Math.Max(something, maxDistance);
-		}*/
 	}
 
 	
 
 	public List<GameObject> FindPathTo(GameObject startHex, GameObject endHex) { //Funkcja wyznacza sciezke od hexa startowego do koncowego
-		//Jesli hex nie istnieje zwroc NIC!
-		if (endHex == null) {
+		if (endHex == null) { //Jesli hex nie istnieje zwroc NIC!
 			return null;
 		}
 
@@ -126,7 +91,6 @@ public class PathFindingAStar : MonoBehaviour {
 		listOpened.Sort(); //Sortujemy zeby odpowiedni hex byl na 0 miejscu w tablicy. Sortowanie jest stabilne (qsort albo heapsort w zaleznosci od ilosci elementow w liscie
 
 		pathFinderNode presentHexNode;
-		bool isInListClosed;
 		while (true) {
 			if (listOpened.Count == 0) { //jesli nie ma juz hexow do przebadania znaczy to, ze przebadalismy wszystkie mozliwe a do wlasciwego nie dotarlismy, tzn nie da sie do niego dojsc. Sciezka nie istnieje wiec zwracamy NIIIIC! HUE HUE HUE :D
 				return null;
@@ -139,8 +103,8 @@ public class PathFindingAStar : MonoBehaviour {
 				break;
 			}
 
-			isInListClosed = false;
 			foreach (GameObject presentHex in presentHexNode.hex.GetComponent<hexProperties>().hexNeighbors) { //Sprawdzenie czy nie ma go w liscie sprawdzonej przypadkiem juz
+				bool isInListClosed = false;
 				foreach (pathFinderNode hexNode in listClosed) {
 					if (hexNode.hex == presentHex) {
 						isInListClosed = true;
@@ -166,8 +130,8 @@ public class PathFindingAStar : MonoBehaviour {
 		//Utworzenie sciezki
 		List<GameObject> path = new List<GameObject>();
 		listClosed.Reverse();
-		for (pathFinderNode current = listClosed[0]; current != null; current = current.father) { //Idziemy od hexa koncowego przez wszystkich ojcow az ktos nie bedzie miec ojca (biedny ;(... smuteczek)
-			path.Add(current.hex);
+		for (pathFinderNode HexNode = listClosed[0]; HexNode != null; HexNode = HexNode.father) { //Idziemy od hexa koncowego przez wszystkich ojcow az ktos nie bedzie miec ojca (biedny ;(... smuteczek)
+			path.Add(HexNode.hex);
 		}
 
 		listOpened.Clear(); //usuniecie niepotrzybnych juz list

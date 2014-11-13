@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{3B8C78EE-722F-BBC0-6213-36CCA6D98066}</ProjectGuid>
+	<ProjectGuid>{40CBFDE4-B693-6D1E-59C8-389CB2569DB9}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -48,20 +48,20 @@
   <ItemGroup>
      <Compile Include="Assets\CameraControls\CameraControl.cs" />
      <Compile Include="Assets\Scripts\HexMesh.cs" />
+     <Compile Include="Assets\Scripts\MouseOnHex.cs" />
      <Compile Include="Assets\Scripts\PathFindingAStar.cs" />
      <Compile Include="Assets\Scripts\PutMenOnHex.cs" />
      <Compile Include="Assets\Scripts\SpawnHexes.cs" />
      <Compile Include="Assets\Scripts\hexProperties.cs" />
-     <Compile Include="Assets\SelectUnit.cs" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>F:/Moje Dokumenty/GitHub/ProgramowanieGrafiki3D/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>F:/Pulpit/CameraControl 2014.11.03.23.26/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{E8D431E6-74D5-E3D0-10E8-F4367B0B283D}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
+      <Project>{36E96759-8DAE-8DEF-20B0-2DC7A5D66708}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
