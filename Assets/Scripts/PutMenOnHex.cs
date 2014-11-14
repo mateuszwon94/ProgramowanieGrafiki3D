@@ -53,7 +53,7 @@ public class PutMenOnHex : MonoBehaviour {
 				}
 			}
 		}
-		if (path != null) {
+		if (path != null && endHex != null) {
 			foreach (GameObject currentHex in path) {
 				currentHex.GetComponent<hexProperties>().ChangeHexColor(Color.white);
 			}

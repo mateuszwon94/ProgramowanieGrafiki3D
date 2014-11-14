@@ -19,6 +19,9 @@ public class hexProperties : MonoBehaviour {
 	public bool isMouseOn = false;	//czy myszka jest nad hexem
 	public bool isToggle = false;	//czy hex zostal zaznaczony
 
+	public float mouseOnFadeSpeed = 0.1f;
+	public float fadeTolerance = 0.05f;
+
 	public void ChangeVisibility(int size) {
 		/* 
 		 * Zmienia widzialnosc hexa.
@@ -73,6 +76,25 @@ public class hexProperties : MonoBehaviour {
 
 	public void ChangeHexColor(Color color) { //zmienia kolor hexa (napisane by ulatwic se zycie i nie pieprzyc z tak dlugim kodem)
 		gameObject.GetComponent<MeshRenderer>().materials[0].color = color;
+	}
+
+	void SetSelectionAlpha (float newA) {
+		Color tempColor = gameObject.GetComponent<MeshRenderer>().materials[1].color;
+		tempColor.a = newA;
+		gameObject.GetComponent<MeshRenderer>().materials[1].color = tempColor;
+	}
+
+	float GetSelectionAlpha () {
+		return gameObject.GetComponent<MeshRenderer>().materials[1].color.a;
+	}
+
+	void Update () {
+		if (isMouseOn == true && (1 - GetSelectionAlpha()) > fadeTolerance) {
+			SetSelectionAlpha (Mathf.Lerp (GetSelectionAlpha (), 1, Time.deltaTime * mouseOnFadeSpeed));
+		}
+		else if (isMouseOn == false && GetSelectionAlpha() > fadeTolerance) {
+			SetSelectionAlpha (Mathf.Lerp (GetSelectionAlpha (), 0, Time.deltaTime * mouseOnFadeSpeed));
+		}
 	}
 
 }
