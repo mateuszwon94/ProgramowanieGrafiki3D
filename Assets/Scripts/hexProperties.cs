@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class hexProperties : MonoBehaviour {
 
-	GameObject onHex = null;
+	public GameObject onHex = null;
 
 	public GameObject[] hexNeighbors = new GameObject[6]; //hexNeighbors[0] => hex na pozycji (posX,posY-1) [hex "pod"] nastepnie zgodnie z ruchem wskazowek zegara
 
 	bool isAvaliable = true;		//czy można na hexie stanac
+	bool isFree = true;
 	public bool isVisable = true;	//Uzywane tymczasowo to wykluczenia z planszy hexow tak zeby sama plansza byla hexem 
 
 	public int hexPosX;				//pozycja X hexa na plaszczyznie
@@ -58,6 +59,10 @@ public class hexProperties : MonoBehaviour {
 		return isAvaliable;
 	}
 
+	public bool IsFree() { //Zwraca dostepnosc hexa
+		return isFree;
+	}
+
 	public GameObject GetFromHex() { //zwraca obiekt znajdujacy sie na hexie
 		return onHex;
 	}
@@ -65,12 +70,14 @@ public class hexProperties : MonoBehaviour {
 	public GameObject PopFromHex() { //zdejmuje obiekt z hexa i go zwraca
 		GameObject sth = onHex;
 		onHex = null;
+		isFree = true;
 		return sth;
 	}
 
 	public void PutOnHex(GameObject Sth) { //kladzie obiekt na hexie
 		Sth.transform.position = transform.position;
 		onHex = Sth;
+		isFree = false;
 	}
 
 	public void ChangeHexColor(Color color, int whichMaterial) { //zmienia kolor hexa (napisane by ulatwic se zycie i nie pieprzyc z tak dlugim kodem)

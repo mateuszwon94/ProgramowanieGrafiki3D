@@ -23,6 +23,8 @@ public class PutMenOnHex : MonoBehaviour {
 	GameObject myArmys;
 	GameObject enemyArmys;
 
+	bool mouseIsDown = false;
+
 	int x, y;
 	
 	int i = 0;
@@ -50,11 +52,20 @@ public class PutMenOnHex : MonoBehaviour {
 		curHex = terrain.GetComponent<MouseOnHex>().currentHex;
 		if (curHex != null) {
 			if (Input.anyKey) {
-				if (Input.GetButton("Mouse 1") && myArmy.Count < 2) {//&& curHex.GetComponent<hexProperties>().hexPosX < 10) {
+				if (Input.GetButton("Mouse 1") && !mouseIsDown && curHex.GetComponent<hexProperties>().IsAvaliable() && curHex.GetComponent<hexProperties>().IsFree()) {//&& curHex.GetComponent<hexProperties>().hexPosX < 10) {
 					myArmy.Add((GameObject)Instantiate(archerSquad, new Vector3(0, 0, 0), Quaternion.identity));
 					myArmy[i].transform.parent = myArmys.transform;
-					//myArmy[i].transform.name = "Archer Squad " + i.ToString();
+					myArmy[i].transform.name = "Archer Squad " + i.ToString();
 					myArmy[i].GetComponent<SquadProprties>().init(5, archerFigure, 30, 3, 6, 3, true, 4, 4, 2, curHex, 0, 50);
+					mouseIsDown = true;
+					i++;
+				}
+				else if (Input.GetButton("Mouse 1") && !mouseIsDown && !curHex.GetComponent<hexProperties>().IsFree()) {
+					curHex.GetComponent<hexProperties>().onHex.GetComponent<UnitProperties>().ToggleUnit();
+					//curHex.onHex.inWhichSquad.ToggleSquad(curHex.onHex.whichInSquad)
+				}
+				else {
+					mouseIsDown = false;
 				}
 			}
 		}
