@@ -1,4 +1,4 @@
-﻿	using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class hexProperties : MonoBehaviour {
@@ -69,13 +69,12 @@ public class hexProperties : MonoBehaviour {
 	}
 
 	public void PutOnHex(GameObject Sth) { //kladzie obiekt na hexie
-
 		Sth.transform.position = transform.position;
 		onHex = Sth;
 	}
 
-	public void ChangeHexColor(Color color) { //zmienia kolor hexa (napisane by ulatwic se zycie i nie pieprzyc z tak dlugim kodem)
-		gameObject.GetComponent<MeshRenderer>().materials[0].color = color;
+	public void ChangeHexColor(Color color, int whichMaterial) { //zmienia kolor hexa (napisane by ulatwic se zycie i nie pieprzyc z tak dlugim kodem)
+		gameObject.GetComponent<MeshRenderer>().materials[whichMaterial].color = color;
 	}
 
 	void SetSelectionAlpha (float newA) {

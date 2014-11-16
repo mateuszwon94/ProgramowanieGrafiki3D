@@ -66,9 +66,7 @@ public class PathFindingAStar : MonoBehaviour {
 			return Math.Abs(endHex.GetComponent<hexProperties>().hexPosX - hex.GetComponent<hexProperties>().hexPosX) + Math.Abs(endHex.GetComponent<hexProperties>().hexPosY - hex.GetComponent<hexProperties>().hexPosY) + Math.Abs(endHex.GetComponent<hexProperties>().hexPosZ - hex.GetComponent<hexProperties>().hexPosZ);
 		}*/
 	}
-
-	
-
+    
 	public List<GameObject> FindPathTo(GameObject startHex, GameObject endHex) { //Funkcja wyznacza sciezke od hexa startowego do koncowego
 		if (endHex == null) { //Jesli hex nie istnieje zwroc NIC!
 			return null;

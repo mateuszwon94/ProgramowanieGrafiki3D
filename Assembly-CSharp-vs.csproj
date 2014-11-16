@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>E:/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>E:/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -52,11 +52,13 @@
      <Compile Include="Assets\Scripts\PathFindingAStar.cs" />
      <Compile Include="Assets\Scripts\PutMenOnHex.cs" />
      <Compile Include="Assets\Scripts\SpawnHexes.cs" />
+     <Compile Include="Assets\Scripts\SquadProprties.cs" />
+     <Compile Include="Assets\Scripts\UnitProperties.cs" />
      <Compile Include="Assets\Scripts\hexProperties.cs" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/Wojciech/Documents/Unity projects/ProgramowanieGrafiki3D/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>F:/Moje Dokumenty/GitHub/ProgramowanieGrafiki3D/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -53,7 +53,6 @@ public class PutMenOnHex : MonoBehaviour {
 				if (Input.GetButton("Mouse 1") && myArmy.Count < 2) {//&& curHex.GetComponent<hexProperties>().hexPosX < 10) {
 					myArmy.Add((GameObject)Instantiate(archerSquad, new Vector3(0, 0, 0), Quaternion.identity));
 					myArmy[i].transform.parent = myArmys.transform;
-					//myArmy[i].transform.name = "Archer Squad " + i.ToString();
 					myArmy[i].GetComponent<SquadProprties>().init(5, archerFigure, 30, 3, 6, 3, true, 4, 4, 2, curHex, 0, 50);
 				}
 			}

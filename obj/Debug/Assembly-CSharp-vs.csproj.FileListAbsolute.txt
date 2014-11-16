@@ -24,3 +24,16 @@ F:\Moje Dokumenty\CameraControl\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
 F:\Moje Dokumenty\CameraControl\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
 F:\Moje Dokumenty\CameraControl\obj\Debug\Assembly-CSharp.dll
 F:\Moje Dokumenty\CameraControl\obj\Debug\Assembly-CSharp.pdb
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\Assembly-CSharp.dll
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\Assembly-CSharp.pdb
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\Assembly-UnityScript-firstpass.dll
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\UnityEditor.dll
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\UnityEngine.dll
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\Mono.Cecil.dll
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\nunit.framework.dll
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\Unity.DataContract.dll
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\obj\Debug\Assembly-CSharp.dll
+F:\Moje Dokumenty\GitHub\ProgramowanieGrafiki3D\obj\Debug\Assembly-CSharp.pdb
