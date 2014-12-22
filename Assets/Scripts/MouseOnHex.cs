@@ -15,7 +15,7 @@ public class MouseOnHex : MonoBehaviour {
 	public GameObject currentHex;
 	GameObject previousHex = null;
 
-	void Start(){
+	void Start() {
 		currentHex = gameObject.GetComponent<SpawnHexes>().hexGrid[x, y];
 		size = gameObject.GetComponent<SpawnHexes>().size;
 
@@ -37,16 +37,16 @@ public class MouseOnHex : MonoBehaviour {
 
 			previousHex = currentHex;
 
-			if ((x + y > howManyToCut) && (x + y < 2 * size - howManyToCut - 2) ) {
-                try {
-                    currentHex = gameObject.GetComponent<SpawnHexes>().hexGrid[x, y];
-                }
-				catch (IndexOutOfRangeException) {}
+			if ((x + y > howManyToCut) && (x + y < 2 * size - howManyToCut - 2)) {
+				try {
+					currentHex = gameObject.GetComponent<SpawnHexes>().hexGrid[x, y];
+				}
+				catch (IndexOutOfRangeException) { }
 			}
 			else {
 				currentHex = null;
 			}
-			
+
 			if (currentHex != null && currentHex.GetComponent<hexProperties>().IsAvaliable())
 				currentHex.GetComponent<hexProperties>().isMouseOn = true;
 			if (previousHex != null && previousHex != currentHex) {

@@ -10,11 +10,11 @@ public class PutMenOnHex : MonoBehaviour {
 
 	public GameObject terrain;
 	public GameObject men;
-    //public GameObject infantry;
-    public GameObject archerSquad;
+	//public GameObject infantry;
+	public GameObject archerSquad;
 	public GameObject archerFigure;
-    //public GameObject cavalery;
-    //public GameObject special;
+	//public GameObject cavalery;
+	//public GameObject special;
 	List<GameObject> myArmy = new List<GameObject>();
 	List<GameObject> enemyArmy = new List<GameObject>();
 	GameObject where, curHex, endHex;
@@ -26,16 +26,16 @@ public class PutMenOnHex : MonoBehaviour {
 	bool mouseIsDown = false;
 
 	int x, y;
-	
+
 	int i = 0;
 
 	static bool menOnHex = false;
 	static bool endOfPath = false;
-	
-	void Start () {
+
+	void Start() {
 		myArmys = new GameObject("My Army");
 		enemyArmys = new GameObject("Enemy Army");
-		for (int i = 0; i < Random.Range(1500, 2000); i++) {
+		for (int i = 0 ; i < Random.Range(1500, 2000) ; i++) {
 			x = Random.Range(0, 74);
 			y = Random.Range(0, 74);
 			if (terrain.GetComponent<SpawnHexes>().hexGrid[x, y] != null && terrain.GetComponent<SpawnHexes>().hexGrid[x, y].GetComponent<hexProperties>().IsAvaliable()) {
@@ -48,7 +48,7 @@ public class PutMenOnHex : MonoBehaviour {
 		}
 	}
 
-	void Update(){
+	void Update() {
 		curHex = terrain.GetComponent<MouseOnHex>().currentHex;
 		if (curHex != null) {
 			if (Input.anyKey) {
@@ -59,10 +59,6 @@ public class PutMenOnHex : MonoBehaviour {
 					myArmy[i].GetComponent<SquadProprties>().init(5, archerFigure, 30, 3, 6, 3, true, 4, 4, 2, curHex, 0, 50);
 					mouseIsDown = true;
 					i++;
-				}
-				else if (Input.GetButton("Mouse 1") && !mouseIsDown && !curHex.GetComponent<hexProperties>().IsFree()) {
-					curHex.GetComponent<hexProperties>().onHex.GetComponent<UnitProperties>().ToggleUnit();
-					//curHex.onHex.inWhichSquad.ToggleSquad(curHex.onHex.whichInSquad)
 				}
 				else {
 					mouseIsDown = false;

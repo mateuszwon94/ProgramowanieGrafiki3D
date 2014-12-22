@@ -38,7 +38,7 @@ public class SpawnHexes : MonoBehaviour {
 				currentHex = (GameObject)Instantiate(hex, new Vector3(startPosX + spawnX, startPosY, startPosZ + spawnZ), Quaternion.identity); //tworzenie hexa i ustawienie go na odpowiedniej pozycji
 				currentHex.GetComponent<hexProperties>().centerOfHex = new Vector2(startPosX + spawnX, startPosZ + spawnZ);
 				currentHex.transform.parent = hexColumn.transform; //Przypisanie hexowi jako rodzica HexKolumne
-				currentHex.transform.name = "hex (" + i.ToString() + "," + j.ToString() + ")"; //to też do ladnego wygladu w UnityEdytorze
+				currentHex.transform.name = "Hex (" + i.ToString() + "," + j.ToString() + ")"; //to też do ladnego wygladu w UnityEdytorze
 				hexGrid[i, j] = currentHex;
 
 				//Ustawienie odpowiedni wlasciwosci dla konkretnego hexa

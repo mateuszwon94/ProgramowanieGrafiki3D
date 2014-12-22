@@ -10,6 +10,8 @@ public class SquadProprties : MonoBehaviour {
 
 	public List<GameObject> squad;
 
+	public bool isSelected = false;
+
 	public int actionPoints;
 	public int actionPointsActual;
 
@@ -22,6 +24,9 @@ public class SquadProprties : MonoBehaviour {
 	public int unitStrength;
 	public int unitDurability;
 	public int unitArmour;
+
+	public float mouseOnFadeSpeed = 0.1f;
+	public float fadeTolerance = 0.5f;
 
 	public void init(int mis, GameObject what, int actP, int hmtm, int hmta, int hmtf, bool cf, int us, int ud, int ua, GameObject hex, int i, int hp) {
 		menInSquad = mis;
@@ -44,23 +49,23 @@ public class SquadProprties : MonoBehaviour {
 		List<GameObject> unitHexes = new List<GameObject>();
 		unitHexes.Add(squadRootHex);
 		GameObject neighbour;
-		for (int k = 0; unitHexes.Count < mis + 1; k++) {
-			for (int l = 0; l < 6; l++) {
+		for (int k = 0 ; unitHexes.Count < mis + 1 ; k++) {
+			for (int l = 0 ; l < 6 ; l++) {
 				neighbour = unitHexes[k].GetComponent<hexProperties>().hexNeighbors[l];
 				if (neighbour != null && neighbour.GetComponent<hexProperties>().IsAvaliable() && unitHexes.IndexOf(neighbour) == -1 && neighbour.GetComponent<hexProperties>().IsFree())
 					unitHexes.Add(neighbour);
 			}
 		}
 
-		for (int j = 0; j < mis; j++){
+		for (int j = 0 ; j < mis ; j++) {
 			squad.Add((GameObject)Instantiate(what, new Vector3(0, 0, 0), Quaternion.identity));
 			if (i == 0) {
-				squad[j].transform.name = "Arcger "+j.ToString();
+				squad[j].transform.name = "Arcger " + j.ToString();
 			}
-			else if (i == 1){
+			else if (i == 1) {
 				squad[j].transform.name = "Infantry " + j.ToString();
 			}
-			else if (i == 2){
+			else if (i == 2) {
 				squad[j].transform.name = "Cavalery " + j.ToString();
 			}
 			else if (i == 3) {
@@ -70,26 +75,6 @@ public class SquadProprties : MonoBehaviour {
 			GameObject unitHex = unitHexes[which];
 			squad[j].GetComponent<UnitProperties>().init(hp, gameObject, unitHex, j);
 			unitHexes.Remove(unitHex);
-		}
-		
-	}
-
-	public void ToggleSquad(int where) {
-		if (squad[0].GetComponent<UnitProperties>().isToggled) {
-			for (int i = 0; i < squad.Count; i++) {
-				if (i == where) {
-					squad[i].GetComponent<UnitProperties>().unitHex.GetComponent<hexProperties>().ChangeHexColor(Color.yellow, 1);
-				}
-				squad[i].GetComponent<UnitProperties>().unitHex.GetComponent<hexProperties>().isMouseOn = false;
-			}
-		}
-		else if (!squad[0].GetComponent<UnitProperties>().isToggled) {
-			for (int i = 0; i < squad.Count; i++) {
-				if (i == where) {
-					squad[i].GetComponent<UnitProperties>().unitHex.GetComponent<hexProperties>().ChangeHexColor(Color.black, 1);
-				}
-				squad[i].GetComponent<UnitProperties>().unitHex.GetComponent<hexProperties>().isMouseOn = true;
-			}
 		}
 	}
 }

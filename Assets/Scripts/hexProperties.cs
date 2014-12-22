@@ -84,23 +84,22 @@ public class hexProperties : MonoBehaviour {
 		gameObject.GetComponent<MeshRenderer>().materials[whichMaterial].color = color;
 	}
 
-	void SetSelectionAlpha (float newA) {
-		Color tempColor = gameObject.GetComponent<MeshRenderer>().materials[1].color;
+	public void SetSelectionAlpha(float newA, int i) {
+		Color tempColor = gameObject.GetComponent<MeshRenderer>().materials[i].color;
 		tempColor.a = newA;
-		gameObject.GetComponent<MeshRenderer>().materials[1].color = tempColor;
+		gameObject.GetComponent<MeshRenderer>().materials[i].color = tempColor;
 	}
 
-	float GetSelectionAlpha () {
-		return gameObject.GetComponent<MeshRenderer>().materials[1].color.a;
+	public float GetSelectionAlpha(int i) {
+		return gameObject.GetComponent<MeshRenderer>().materials[i].color.a;
 	}
 
-	void Update () {
-		if (isMouseOn == true && (1 - GetSelectionAlpha()) > fadeTolerance) {
-			SetSelectionAlpha (Mathf.Lerp (GetSelectionAlpha (), 1, Time.deltaTime * mouseOnFadeSpeed));
+	void Update() {
+		if (isMouseOn == true && (1 - GetSelectionAlpha(2)) > fadeTolerance) {
+			SetSelectionAlpha(Mathf.Lerp(GetSelectionAlpha(2), 1, Time.deltaTime * mouseOnFadeSpeed), 2);
 		}
-		else if (isMouseOn == false && GetSelectionAlpha() > fadeTolerance) {
-			SetSelectionAlpha (Mathf.Lerp (GetSelectionAlpha (), 0, Time.deltaTime * mouseOnFadeSpeed));
+		else if (isMouseOn == false && GetSelectionAlpha(2) > fadeTolerance) {
+			SetSelectionAlpha(Mathf.Lerp(GetSelectionAlpha(2), 0, Time.deltaTime * mouseOnFadeSpeed), 2);
 		}
 	}
-
 }
