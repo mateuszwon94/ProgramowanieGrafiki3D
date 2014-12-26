@@ -66,8 +66,8 @@ public class PathFindingAStar : MonoBehaviour {
 			return Math.Abs(endHex.GetComponent<hexProperties>().hexPosX - hex.GetComponent<hexProperties>().hexPosX) + Math.Abs(endHex.GetComponent<hexProperties>().hexPosY - hex.GetComponent<hexProperties>().hexPosY) + Math.Abs(endHex.GetComponent<hexProperties>().hexPosZ - hex.GetComponent<hexProperties>().hexPosZ);
 		}*/
 	}
-    
-	public List<GameObject> FindPathTo(GameObject startHex, GameObject endHex) { //Funkcja wyznacza sciezke od hexa startowego do koncowego
+
+	public List<GameObject> FindPathTo(GameObject startHex, GameObject endHex, List<GameObject> allowedHexes) { //Funkcja wyznacza sciezke od hexa startowego do koncowego
 		if (endHex == null) { //Jesli hex nie istnieje zwroc NIC!
 			return null;
 		}
@@ -82,7 +82,8 @@ public class PathFindingAStar : MonoBehaviour {
 		//Dodanie do listy DoSprawdzenia sasiadow startowego hexa odpowiednioe zainicjalizowanych
 		foreach (GameObject presentHex in startHex.GetComponent<hexProperties>().hexNeighbors) {
 			if (presentHex != null && (presentHex.GetComponent<hexProperties>().IsAvaliable())) {
-				listOpened.Add(new pathFinderNode(presentHex, endHex, costFromNodeToNode, startHexNode));
+				if ((presentHex.GetComponent<hexProperties>().IsFree()) || allowedHexes.IndexOf(presentHex) != -1)
+					listOpened.Add(new pathFinderNode(presentHex, endHex, costFromNodeToNode, startHexNode));
 			}
 		}
 		listOpened.Reverse(); //odwracamy bo lepiej jest wybierac ostatni z dodanych hexow o rownej ilosci calkowitego kosztu 
@@ -118,7 +119,8 @@ public class PathFindingAStar : MonoBehaviour {
 				}
 
 				if (presentHex != null && (presentHex.GetComponent<hexProperties>().IsAvaliable()) && !(isInListClosed)) { //Jesli hex jest dostepny i nie jest na liscie sprawdzonej dodajemy go do listy do sprawdzonia
-					listOpened.Add(new pathFinderNode(presentHex, endHex, costFromNodeToNode, presentHexNode));
+					if ((presentHex.GetComponent<hexProperties>().IsFree()) || allowedHexes.IndexOf(presentHex) != -1)
+						listOpened.Add(new pathFinderNode(presentHex, endHex, costFromNodeToNode, presentHexNode));
 				}
 			}
 			listOpened.Reverse(); //odwracamy bo lepiej jest wybierac ostatni z dodanych hexow o rownej ilosci calkowitego kosztu 
@@ -128,13 +130,14 @@ public class PathFindingAStar : MonoBehaviour {
 		//Utworzenie sciezki
 		List<GameObject> path = new List<GameObject>();
 		listClosed.Reverse();
-		for (pathFinderNode HexNode = listClosed[0]; HexNode != null; HexNode = HexNode.father) { //Idziemy od hexa koncowego przez wszystkich ojcow az ktos nie bedzie miec ojca (biedny ;(... smuteczek)
+		for (pathFinderNode HexNode = listClosed[0] ; HexNode != null ; HexNode = HexNode.father) { //Idziemy od hexa koncowego przez wszystkich ojcow az ktos nie bedzie miec ojca (biedny ;(... smuteczek)
 			path.Add(HexNode.hex);
 		}
 
 		listOpened.Clear(); //usuniecie niepotrzybnych juz list
 		listClosed.Clear();
 
+		path.Reverse();
 		return path; //I SUKCES!!! zwracamy sciezke :)
 	}
 

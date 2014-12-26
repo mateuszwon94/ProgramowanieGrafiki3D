@@ -47,10 +47,14 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CameraControls\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\ActiveText.cs" />
+     <Compile Include="Assets\Scripts\ArmyProperties.cs" />
+     <Compile Include="Assets\Scripts\GUIInput.cs" />
+     <Compile Include="Assets\Scripts\HelthBar.cs" />
      <Compile Include="Assets\Scripts\HexMesh.cs" />
      <Compile Include="Assets\Scripts\MouseOnHex.cs" />
      <Compile Include="Assets\Scripts\PathFindingAStar.cs" />
-     <Compile Include="Assets\Scripts\PutMenOnHex.cs" />
+     <Compile Include="Assets\Scripts\Play.cs" />
      <Compile Include="Assets\Scripts\SelectUnit.cs" />
      <Compile Include="Assets\Scripts\SpawnHexes.cs" />
      <Compile Include="Assets\Scripts\SquadProprties.cs" />

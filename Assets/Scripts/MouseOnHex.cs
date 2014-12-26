@@ -28,30 +28,36 @@ public class MouseOnHex : MonoBehaviour {
 	}
 
 	void Update() {
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit;
+		previousHex = currentHex;
 
-		if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
-			x = (int)Math.Floor(38 + (((1f / 3f) * sqrt3 * hit.point.x - (1f / 3f) * hit.point.z)));
-			y = (int)Math.Floor(38 + ((2f / 3f) * hit.point.z));
+		if (Input.mousePosition.y > 100) {
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
 
-			previousHex = currentHex;
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
+				x = (int)Math.Floor(38 + (((1f / 3f) * sqrt3 * hit.point.x - (1f / 3f) * hit.point.z)));
+				y = (int)Math.Floor(38 + ((2f / 3f) * hit.point.z));
 
-			if ((x + y > howManyToCut) && (x + y < 2 * size - howManyToCut - 2)) {
-				try {
-					currentHex = gameObject.GetComponent<SpawnHexes>().hexGrid[x, y];
+				if ((x + y > howManyToCut) && (x + y < 2 * size - howManyToCut - 2)) {
+					try {
+						currentHex = gameObject.GetComponent<SpawnHexes>().hexGrid[x, y];
+					}
+					catch (IndexOutOfRangeException) {
+					}
 				}
-				catch (IndexOutOfRangeException) { }
+				else {
+					currentHex = null;
+				}
 			}
-			else {
-				currentHex = null;
-			}
+		}
+		else {
+			currentHex = null;
+		}
 
-			if (currentHex != null && currentHex.GetComponent<hexProperties>().IsAvaliable())
-				currentHex.GetComponent<hexProperties>().isMouseOn = true;
-			if (previousHex != null && previousHex != currentHex) {
-				previousHex.GetComponent<hexProperties>().isMouseOn = false;
-			}
+		if (currentHex != null && currentHex.GetComponent<hexProperties>().IsAvaliable())
+			currentHex.GetComponent<hexProperties>().isMouseOn = true;
+		if (previousHex != null && previousHex != currentHex) {
+			previousHex.GetComponent<hexProperties>().isMouseOn = false;
 		}
 	}
 }
