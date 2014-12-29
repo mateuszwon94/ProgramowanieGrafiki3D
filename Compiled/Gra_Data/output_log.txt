@@ -16,10 +16,39 @@ Platform assembly: E:\Documents\GitHub\ProgramowanieGrafiki3D\Compiled\gra_Data\
 Loading E:\Documents\GitHub\ProgramowanieGrafiki3D\Compiled\gra_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
 Platform assembly: E:\Documents\GitHub\ProgramowanieGrafiki3D\Compiled\gra_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading E:\Documents\GitHub\ProgramowanieGrafiki3D\Compiled\gra_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.081 seconds
+- Completed reload, in  0.046 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: E:\Documents\GitHub\ProgramowanieGrafiki3D\Compiled\gra_Data\Managed\System.Core.dll (this message is harmless)
 WARNING: Shader Unsupported: 'Hidden/TerrainEngine/Details/BillboardWavingDoublePass' - Pass '' shader state not supported
 Platform assembly: E:\Documents\GitHub\ProgramowanieGrafiki3D\Compiled\gra_Data\Managed\System.dll (this message is harmless)
+ArgumentOutOfRangeException: Argument is out of range.
+Parameter name: index
+  at System.Collections.Generic.List`1[UnityEngine.GameObject].get_Item (Int32 index) [0x00000] in <filename unknown>:0 
+  at SquadProprties.SetSquadRoot (UnityEngine.GameObject hex) [0x00000] in <filename unknown>:0 
+  at SquadProprties.init (Int32 mis, UnityEngine.GameObject what, Int32 actP, Int32 hmtm, Int32 hmta, Int32 hmtf, Boolean cf, Int32 us, Int32 ud, Int32 ua, Int32 uac, UnityEngine.GameObject hex, Int32 i, Int32 hp, UnityEngine.GameObject army, Int32 wia, Boolean icbh, .GUIInput GUI) [0x00000] in <filename unknown>:0 
+  at Play.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+ArgumentOutOfRangeException: Argument is out of range.
+Parameter name: index
+  at System.Collections.Generic.List`1[UnityEngine.GameObject].get_Item (Int32 index) [0x00000] in <filename unknown>:0 
+  at SquadProprties.SetSquadRoot (UnityEngine.GameObject hex) [0x00000] in <filename unknown>:0 
+  at SquadProprties.MoveTo (System.Collections.Generic.List`1 path) [0x00000] in <filename unknown>:0 
+  at Play.MovementMode () [0x00000] in <filename unknown>:0 
+  at Play.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+ArgumentOutOfRangeException: Argument is out of range.
+Parameter name: index
+  at System.Collections.Generic.List`1[UnityEngine.GameObject].get_Item (Int32 index) [0x00000] in <filename unknown>:0 
+  at SquadProprties.SetSquadRoot (UnityEngine.GameObject hex) [0x00000] in <filename unknown>:0 
+  at SquadProprties.MoveTo (System.Collections.Generic.List`1 path) [0x00000] in <filename unknown>:0 
+  at Play.MovementMode () [0x00000] in <filename unknown>:0 
+  at Play.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+

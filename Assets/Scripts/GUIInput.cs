@@ -5,9 +5,13 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GUIInput : MonoBehaviour {
+	/*
+	 * Skrypt odpowiedzialny za interfejs
+	 */
 
 	int howManyGameModes = 4;
 
+	//przeciagniete w inspektorze odpowiednie przyciski i teksty
 	public GameObject movmentGameMode;
 	public GameObject movmentGameModeText;
 
@@ -23,6 +27,9 @@ public class GUIInput : MonoBehaviour {
 	public GameObject exitGameMode;
 	public GameObject exitGameModeText;
 
+	public GameObject endTureGameMode;
+	public GameObject endTureGameModeText;
+
 	public GameObject obrazenia;
 	public GameObject[] obrazeniaTexts = new GameObject[5];
 
@@ -36,23 +43,26 @@ public class GUIInput : MonoBehaviour {
 	public GameObject whichSquasIsSelectedPlane;
 
 	public void Exit() {
+		//Zamykanie aplikacji
 		Application.Quit();
 	}
 
 	public int GetGameMode() {
+		//Zwraca obecyn tryb gry
 		return gameMode;
 	}
 
 
 
 	public void ChangeMovementGameMode() {
+		//zmienia tryb gry z/na faze ruchu
 		int curGM = gameMode;
 		if (gameMode != 0)
 			UnSetCurrentGameMode();
-		 if (curGM != 1) {
+		if (curGM != 1) {
 			SetMovmentGameMode();
 		}
-		
+
 	}
 
 	void UnSetMovmentGameMode() {
@@ -67,13 +77,14 @@ public class GUIInput : MonoBehaviour {
 
 
 	public void ChangeFireGameMode() {
+		//zmienia tryb gry z/na faze strzelania
 		int curGM = gameMode;
 		if (gameMode != 0)
 			UnSetCurrentGameMode();
 		if (curGM != 2) {
 			SetFireGameMode();
 		}
-		
+
 	}
 
 	void UnSetFireGameMode() {
@@ -89,13 +100,14 @@ public class GUIInput : MonoBehaviour {
 
 
 	public void ChangeAttackGameMode() {
+		//zmienia tryb gry z/na faze walki wrecz
 		int curGM = gameMode;
 		if (gameMode != 0)
 			UnSetCurrentGameMode();
 		if (curGM != 3) {
 			SetAttackGameMode();
 		}
-		
+
 	}
 
 	void UnSetAttackGameMode() {
@@ -110,13 +122,14 @@ public class GUIInput : MonoBehaviour {
 
 
 	public void ChangeDeployGameMode() {
+		//zmienia tryb gry z/na faze rozmieszczania
 		int curGM = gameMode;
 		if (gameMode != 0)
 			UnSetCurrentGameMode();
 		if (curGM != -1) {
 			SetDeployGameMode();
 		}
-		
+
 	}
 
 	void UnSetDeployGameMode() {
@@ -125,9 +138,9 @@ public class GUIInput : MonoBehaviour {
 		movmentGameMode.SetActive(true);
 		fireGameMode.SetActive(true);
 		attackGameMode.SetActive(true);
+		endTureGameMode.SetActive(true);
 		deployGameMode.SetActive(false);
 		obrazenia.SetActive(false);
-
 	}
 	void SetDeployGameMode() {
 		gameMode = -1;
@@ -135,22 +148,23 @@ public class GUIInput : MonoBehaviour {
 		movmentGameMode.SetActive(false);
 		fireGameMode.SetActive(false);
 		attackGameMode.SetActive(false);
+		endTureGameMode.SetActive(false);
 		deployGameMode.SetActive(true);
 		exitGameMode.SetActive(true);
 		obrazenia.SetActive(false);
-
 	}
 
 
 
 	public void ChangeExitGameMode() {
+		//zmienia tryb gry z/na faze wyjscia z aplikacji
 		int curGM = gameMode;
 		if (gameMode != 0)
 			UnSetCurrentGameMode();
 		if (curGM != -2) {
 			SetExitGameMode();
 		}
-		
+
 	}
 
 	void UnSetExitGameMode() {
@@ -168,6 +182,7 @@ public class GUIInput : MonoBehaviour {
 			movmentGameMode.SetActive(true);
 			fireGameMode.SetActive(true);
 			attackGameMode.SetActive(true);
+			endTureGameMode.SetActive(true);
 		}
 	}
 	void SetExitGameMode() {
@@ -179,12 +194,39 @@ public class GUIInput : MonoBehaviour {
 		attackGameMode.SetActive(false);
 		deployGameMode.SetActive(false);
 		obrazenia.SetActive(false);
+		endTureGameMode.SetActive(false);
+	}
+
+
+	public void ChangeEndTureGameMode() {
+		//zmienia tryb gry z/na faze ruchu
+		int curGM = gameMode;
+		if (gameMode != 0)
+			UnSetCurrentGameMode();
+		if (curGM != 1) {
+			SetEndTureGameMode();
+		}
+
+	}
+
+	void UnSetEndTureGameMode() {
+		prevGameMode = -10;
+		endTureGameModeText.GetComponent<ActiveText>().ChangeAvaliability();
+	}
+	void SetEndTureGameMode() {
+		gameMode = -10;
+		endTureGameModeText.GetComponent<ActiveText>().ChangeAvaliability();
 	}
 
 
 	void UnSetCurrentGameMode() {
+		//ustawia tryb gry w wiekszosci przypadkow na zaden
 		if (gameMode != 0)
 			switch (gameMode) {
+				case (-10):
+					UnSetEndTureGameMode();
+					gameMode = 0;
+					break;
 				case (-2):
 					UnSetExitGameMode();
 					if (prevGameMode == -1)
@@ -214,7 +256,10 @@ public class GUIInput : MonoBehaviour {
 	}
 
 	public void Update() {
-
+		/*
+		 * Obsluga trybow gry
+		 * Zarowno mysza jak i klawiatura
+		 */
 		try {
 			whichSquadIsSelected = terrain.GetComponent<SelectUnit>().whichSquadIsSelect;
 		}
@@ -241,6 +286,9 @@ public class GUIInput : MonoBehaviour {
 				ChangeFireGameMode();
 			}
 			if (Input.GetKeyDown(KeyCode.A)) {
+				ChangeAttackGameMode();
+			}
+			if (Input.GetKeyDown(KeyCode.Return)) {
 				ChangeAttackGameMode();
 			}
 		}

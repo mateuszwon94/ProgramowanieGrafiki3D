@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Play : MonoBehaviour {
+	/*
+	 * Glowny skrypt z rozgrywka
+	 */
+
 	public GameObject terrain;
 
-	public GameObject archerSquad;
-	public GameObject archerFigure;
+	public GameObject archerSquad;  //przeciagniety w inspektorze prefam oddzialu lucznikow
+	public GameObject archerFigure; //przeciagniaty w inspektorze prefab pojedynczego lucznika
 
-	List<GameObject> myArmy = new List<GameObject>();
-	List<GameObject> enemyArmy = new List<GameObject>();
+	List<GameObject> myArmy = new List<GameObject>();    //lista oddzialow w mojej armii
+	List<GameObject> enemyArmy = new List<GameObject>(); //lista oddzialow w armi przeciwnika
 	public GameObject where, curHex, endHex;
 	public List<GameObject> path = new List<GameObject>();
 
@@ -27,13 +31,13 @@ public class Play : MonoBehaviour {
 
 	int i = 0;
 
-	static bool menOnHex = false;
-	static bool endOfPath = false;
-
 	public float mouseOnFadeSpeed = 0.1f;
 	public float fadeTolerance = 0.1f;
 
 	void Awake() {
+		/*
+		 * Tworzy podstawe armii mojej i komputera
+		 */
 		myArmys = new GameObject("My Army");
 		myArmys.AddComponent<ArmyProperties>();
 		myArmys.GetComponent<ArmyProperties>().squads = myArmy;
@@ -44,6 +48,10 @@ public class Play : MonoBehaviour {
 	}
 
 	void Start() {
+		/*
+		 * Tworzy na planszy nieaktywne hexy przez ktore nie mozna przejsc
+		 * Tworzy armie komputera
+		 */
 		for (int i = 0 ; i < Random.Range(1500, 2000) ; i++) {
 			x = Random.Range(0, 75);
 			y = Random.Range(0, 75);
@@ -64,12 +72,15 @@ public class Play : MonoBehaviour {
 			enemyArmy.Add((GameObject)Instantiate(archerSquad, new Vector3(0, 0, 0), Quaternion.identity));
 			enemyArmy[i].transform.parent = enemyArmys.transform;
 			enemyArmy[i].transform.name = "Archer Squad " + i.ToString();
-			enemyArmy[i].GetComponent<SquadProprties>().init(5, archerFigure, 30, 3, 6, 3, true, 4, 4, 2, 5, terrain.GetComponent<SpawnHexes>().hexGrid[x, y], 0, 50, enemyArmys,i, false, GUI.GetComponent<GUIInput>());
+			enemyArmy[i].GetComponent<SquadProprties>().init(5, archerFigure, 30, 4, 6, 3, true, 4, 4, 4, 2, 5, terrain.GetComponent<SpawnHexes>().hexGrid[x, y], 0, 50, enemyArmys, i, false, GUI.GetComponent<GUIInput>());
 			enemyArmy[i].GetComponent<SquadProprties>().ChangeColor(Color.blue);
 		}
 	}
 
 	void Update() {
+		/*
+		 * Tu sie toczy rozrywka
+		 */
 		curHex = terrain.GetComponent<MouseOnHex>().currentHex;
 		gameMode = GUI.GetComponent<GUIInput>().GetGameMode();
 		if (gameMode < 0)
@@ -83,16 +94,22 @@ public class Play : MonoBehaviour {
 				MovementMode();
 			else if (gameMode == 2)
 				FirementMode();
+			else if (gameMode == 3)
+				AttackMode();
 		}
 	}
 
 	void DeploymentMode() {
+		/*
+		 * Zarzadzanie trybem rozmieszczania
+		 * Tworzzy odpowiednio armie gracza
+		 */
 		if (curHex != null && Input.anyKey) {
 			if (Input.GetButtonDown("Mouse 1") && curHex.GetComponent<hexProperties>().IsAvaliable() && curHex.GetComponent<hexProperties>().IsFree()) {
 				myArmy.Add((GameObject)Instantiate(archerSquad, new Vector3(0, 0, 0), Quaternion.identity));
 				myArmy[i].transform.parent = myArmys.transform;
 				myArmy[i].transform.name = "Archer Squad " + i.ToString();
-				myArmy[i].GetComponent<SquadProprties>().init(5, archerFigure, 30, 3, 6, 3, true, 4, 4, 2, 5, curHex, 0, 50, myArmys, i, true, GUI.GetComponent<GUIInput>());
+				myArmy[i].GetComponent<SquadProprties>().init(5, archerFigure, 30, 4, 6, 3, true, 4, 4, 4, 2, 5, curHex, 0, 50, myArmys, i, true, GUI.GetComponent<GUIInput>());
 				i++;
 			}
 		}
@@ -100,15 +117,23 @@ public class Play : MonoBehaviour {
 	}
 
 	void BeforEvryGameMode() {
+		/*
+		 * Zadania ktore musza zostac rozpatrzone przed kazdym obiegiem normalnego trybu rozgrywki
+		 * Odczytanie ktory oddzial jest zaznaczony
+		 * Ewentualnie ukrycie powstalej gdzies wczesniej sciezki
+		 */
 		whichSquadIsSelect = terrain.GetComponent<SelectUnit>().whichSquadIsSelect;
 
-		if (whichSquadIsSelect == null && path.Count != 0) {
-			ChangeVisibilityOfPath(path, true);
-			path.Clear();
+		if (whichSquadIsSelect == null) {
+			NonMode();
 		}
 	}
 
 	void NonMode() {
+		/*
+		 * Uruchamiany jesli tryb gry jest ustawiony na 0
+		 * Jesli jest istnieje jakas ciezka to ja znika
+		 */
 		if (path.Count != 0) {
 			ChangeVisibilityOfPath(path, true);
 			path.Clear();
@@ -116,6 +141,10 @@ public class Play : MonoBehaviour {
 	}
 
 	void MovementMode() {
+		/*
+		 * Zarzadzanie trybem ruchu
+		 * wyznaczanie sciezki i przemieszczanie sie po niej
+		 */
 		if (curHex != null && Input.anyKey) {
 			if (Input.GetButtonDown("Mouse 2") && curHex.GetComponent<hexProperties>().IsAvaliable() && curHex.GetComponent<hexProperties>().IsFree() && whichSquadIsSelect != null && path.Count == 0) {
 				path = whichSquadIsSelect.GetComponent<SquadProprties>().FindPathTo(curHex);
@@ -151,6 +180,10 @@ public class Play : MonoBehaviour {
 	}
 
 	void FirementMode() {
+		/*
+		 * Zarzadzanie trybem strzelania
+		 * po prostu strzal
+		 */
 		if (curHex != null && Input.anyKey) {
 			if (Input.GetButtonDown("Mouse 2") && !curHex.GetComponent<hexProperties>().IsFree() && whichSquadIsSelect != null) {
 				GameObject toWhatWantToFire = curHex.GetComponent<hexProperties>().GetFromHex().GetComponent<UnitProperties>().inWhichSquad;
@@ -160,7 +193,19 @@ public class Play : MonoBehaviour {
 		}
 	}
 
+	void AttackMode() {
+		if (curHex != null && Input.anyKey) {
+			if (Input.GetButtonDown("Mouse 2") && !curHex.GetComponent<hexProperties>().IsFree() && whichSquadIsSelect != null) {
+				GameObject whatWantToAttack = curHex.GetComponent<hexProperties>().GetFromHex().GetComponent<UnitProperties>().inWhichSquad;
+				whichSquadIsSelect.GetComponent<SquadProprties>().Attack(whatWantToAttack);
+			}
+		}
+	}
+
 	void ChangeVisibilityOfPath(List<GameObject> path, bool isVisible) {
+		/*
+		 * Funkcja zmienia widocznosc calej sciezki
+		 */
 		foreach (GameObject hex in path) {
 			if (isVisible) {
 				while ((hex.GetComponent<hexProperties>().GetSelectionAlpha(3)) > fadeTolerance) {

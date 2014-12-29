@@ -4,6 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MouseOnHex : MonoBehaviour {
+	/*
+	 * obsluga poruszania mysza po ekranie
+	 * tak zeby zaznaczal sie odpowiedni hex
+	 * wykorzystanie matematyki opartej o uklad hexowy :D
+	 */
 
 	static float sqrt3 = (float)Math.Sqrt(3);
 
@@ -54,6 +59,7 @@ public class MouseOnHex : MonoBehaviour {
 			currentHex = null;
 		}
 
+		//Odpowiednie zaznaczanie i odznaczanie hexa
 		if (currentHex != null && currentHex.GetComponent<hexProperties>().IsAvaliable())
 			currentHex.GetComponent<hexProperties>().isMouseOn = true;
 		if (previousHex != null && previousHex != currentHex) {

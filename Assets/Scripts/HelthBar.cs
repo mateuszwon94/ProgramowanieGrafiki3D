@@ -2,6 +2,10 @@
 using System.Collections;
 
 public class HelthBar : MonoBehaviour {
+	/*
+	 * Skrypt odpowiedzialny za pasek zdrowia
+	 * Obraca nim oraz odpowiednio zmniejsza
+	 */
 
 	public GameObject camera;
 
@@ -9,14 +13,13 @@ public class HelthBar : MonoBehaviour {
 	float curRotY;
 	float curRotZ = 0f;
 
-	float scale = 5f;
+	float scale = 20f;
 
 	public void ReScale(int howManyLeft, int howManyWasOnStart) {
+		//Funkcja przeskalowujaca pasek zdrowia
 		float how = ((float)howManyLeft) / ((float)howManyWasOnStart);
 
-		gameObject.transform.localScale = new Vector3(1, scale * how, 1);
-
-		//Debug.Log(how);
+		gameObject.transform.localScale = new Vector3(scale * how, 5, 1);
 
 		if (how > 0.5)
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(0f, 0.5f, 0f, 0.7f);
@@ -25,7 +28,7 @@ public class HelthBar : MonoBehaviour {
 		else
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.7f);
 
-		curRotZ = -90f;
+		//curRotZ = -90f;
 	}
 
 	public void Awake() {
@@ -33,6 +36,7 @@ public class HelthBar : MonoBehaviour {
 	}
 
 	public void Update() {
+		//Obracanie paska zdrowia
 		curRotY = camera.GetComponent<CameraControl>().currentRotX;
 		curRotX = camera.GetComponent<CameraControl>().currentRotY;
 

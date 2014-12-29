@@ -9,6 +9,8 @@ public class SquadProprties : MonoBehaviour {
 	public int menInSquad;
 	public int deadMen = 0;
 
+	double A, B, C, D;
+
 	public int startHP;
 
 	public GameObject squadRootHex;
@@ -33,6 +35,7 @@ public class SquadProprties : MonoBehaviour {
 	public bool canFire;
 
 	public int unitStrength;
+	public int unitAttackSkil;
 	public int unitDurability;
 	public int unitArmour;
 
@@ -48,33 +51,34 @@ public class SquadProprties : MonoBehaviour {
 
 	public List<GameObject> path = new List<GameObject>();
 
-	public void init(int mis, GameObject what, int actP, int hmtm, int hmta, int hmtf, bool cf, int us, int ud, int ua, int uac, GameObject hex, int i, int hp, GameObject army, int wia, bool icbh, GUIInput GUI) {
-
+	public void init(int mis, GameObject what, int ActionPoints, int PointsToMove, int PointsToAttack, int PointsToFire, bool CanFire, int Strenght, int AttackSkills, int Durability, int Armour, int Accuracy, GameObject hex, int i, int HP, GameObject whichArmy, int WhichInArmy, bool ControlByHuman, GUIInput GUI) {
+		//Funkcja inicjalizujaca oddzial
 		ObrazeniaBox = GUI.obrazenia;
 		Obrazenia = GUI.obrazeniaTexts;
 
 		menInSquad = mis;
 
-		actionPoints = actionPointsActual = actP;
+		actionPoints = actionPointsActual = ActionPoints;
 
-		howManyToMove = hmta;
-		howManyToAttack = hmta;
-		howManyToFire = hmtf;
+		howManyToMove = PointsToMove;
+		howManyToAttack = PointsToAttack;
+		howManyToFire = PointsToFire;
 
-		canFire = cf;
+		canFire = CanFire;
 
-		startHP = hp;
+		startHP = HP;
 
-		unitStrength = us;
-		unitDurability = ud;
-		unitArmour = ua;
+		unitStrength = Strenght;
+		unitAttackSkil = AttackSkills;
+		unitDurability = Durability;
+		unitArmour = Armour;
 
-		unitAccuracy = uac;
+		unitAccuracy = Accuracy;
 
-		inWhichArmy = army;
-		whichInArmy = wia;
+		inWhichArmy = whichArmy;
+		whichInArmy = WhichInArmy;
 
-		isControlByHuman = icbh;
+		isControlByHuman = ControlByHuman;
 
 		SetSquadRoot(hex);
 
@@ -95,26 +99,47 @@ public class SquadProprties : MonoBehaviour {
 				squad[j].transform.name = "Cavalery " + j.ToString();
 			}
 			int which = UnityEngine.Random.Range(0, UH.Count - 1);
-			squad[j].GetComponent<UnitProperties>().init(hp, gameObject, UH[which], j);
+			squad[j].GetComponent<UnitProperties>().init(HP, gameObject, UH[which], j);
 			UH.RemoveAt(which);
 		}
 		foreach (GameObject HEX in UH)
 			unitHexes.Remove(HEX);
 
+		List<Vector2> punkty = new List<Vector2>();
+		punkty.Add(new Vector2(10f, 0.99f));
+		punkty.Add(new Vector2(1f, 0.5f));
+		punkty.Add(new Vector2(0.1f, 0.01f));
+
+		double[] AB = LogarithmRegresion(punkty);
+
+		A = AB[0];
+		B = AB[1];
+
+		punkty.Clear();
+		punkty.Add(new Vector2(10f, 0.8f));
+		punkty.Add(new Vector2(1f, 0.5f));
+		punkty.Add(new Vector2(0.1f, 0.2f));
+
+		double[] CD = LogarithmRegresion(punkty);
+
+		C = CD[0];
+		D = CD[1];
 	}
 
 	public void ChangeColor(Color what) {
+		//zmiania kolor calego oddzialu
 		foreach (GameObject unit in squad)
 			unit.GetComponent<UnitProperties>().ChangeColor(what);
 	}
 
 	void SetSquadRoot(GameObject hex) {
+		//ustawia okreslony hex jako hex glowny i rozstawia wokol niego oddzial
 		squadRootHex = hex;
 
-		GameObject[] hexNeighbours = squadRootHex.GetComponent<hexProperties>().hexNeighbors;
 		List<GameObject> previousSquadHexes = unitHexes;
 		unitHexes.Clear();
-		unitHexes.Add(squadRootHex);
+		if (squadRootHex.GetComponent<hexProperties>().IsAvaliable() && squadRootHex.GetComponent<hexProperties>().IsFree())
+			unitHexes.Add(squadRootHex);
 		GameObject neighbour;
 		for (int k = 0 ; unitHexes.Count < menInSquad + 1 ; k++) {
 			for (int l = 0 ; l < 6 ; l++) {
@@ -129,10 +154,16 @@ public class SquadProprties : MonoBehaviour {
 		}
 	}
 
+	void SetSquadRoot(List<GameObject> hexes) {
+		squadRootHex = hexes[UnityEngine.Random.Range(0, hexes.Count)];
+	}
+
 	public List<GameObject> FindPathTo(GameObject where) {
+		//znajduje sciezke od glownego hexa do okreslonego
 		List<GameObject> squadHexes = new List<GameObject>();
 
 		foreach (GameObject unit in squad) {
+
 			squadHexes.Add(unit.GetComponent<UnitProperties>().unitHex);
 		}
 
@@ -141,6 +172,7 @@ public class SquadProprties : MonoBehaviour {
 	}
 
 	public void MoveTo(List<GameObject> path) {
+		//rusza oddzial po okreslonej sciezce
 		SetSquadRoot(path[path.Count - 1]);
 
 		List<GameObject> UH = new List<GameObject>(unitHexes);
@@ -156,12 +188,15 @@ public class SquadProprties : MonoBehaviour {
 	}
 
 	public void MoveTo(GameObject where) {
+		//rusza oddzial do konkretnego miejsca
 		MoveTo(FindPathTo(where));
 	}
 
 	public void TakeFireDamege(int howManyBullets, int shooterAccuracy, int bulletStrength) {
+		//przyjmowanie obrazen od ostrzalu przez oddzial
 		for (int whichBullet = 0 ; whichBullet < howManyBullets ; ++whichBullet) {
 			bool[] hitChance = new bool[10];
+
 			for (int i = 0 ; i < shooterAccuracy ; ++i)
 				hitChance[i] = true;
 			for (int i = shooterAccuracy ; i < 10 ; ++i)
@@ -169,7 +204,7 @@ public class SquadProprties : MonoBehaviour {
 
 			if (hitChance[UnityEngine.Random.Range(0, 10)]) {
 				bool[] damageChance = new bool[100];
-				int damageProbability = (int)(Math.Round(0.251 * Math.Log((double)bulletStrength / (double)unitDurability) + 0.5033, 2) * 100);
+				int damageProbability = DamageProbability((double)bulletStrength);
 
 				for (int i = 0 ; i < damageProbability ; ++i)
 					damageChance[i] = true;
@@ -202,7 +237,111 @@ public class SquadProprties : MonoBehaviour {
 	}
 
 	public void Fire(GameObject toWhatWantToFire) {
+		//Strzelanie przez oddzial
 		ObrazeniaBox.SetActive(true);
 		toWhatWantToFire.GetComponent<SquadProprties>().TakeFireDamege(menInSquad, unitAccuracy, 7);
+	}
+
+	double[] LogarithmRegresion(List<Vector2> points) {
+		//Funkcja potrzebna do wyznaczenia prawdopodobienstwa zranienia
+		double[] coefficients = new double[2];
+		double avrX, avrY;
+		double sumXY = 0f;
+		double sumX = 0f;
+		double sumY = 0f;
+		double sumXX = 0f;
+		double N = (double)points.Count;
+		foreach (Vector2 point in points) {
+			sumX += Math.Log(point.x);
+			sumXX += Math.Log(point.x) * Math.Log(point.x);
+			sumXY += Math.Log(point.x) * point.y;
+			sumY += point.y;
+		}
+		avrX = sumX / N;
+		avrY = sumY / N;
+		coefficients[0] = (N * sumXY - sumX * sumY) / (N * sumXX - sumX * sumX);
+		coefficients[1] = avrY - coefficients[0] * avrX;
+		return coefficients;
+	}
+
+	int DamageProbability(double attackStrenght) {
+		//funkcja zwraca prawdopodobienstwo zranienia
+		return (int)(Math.Round(A * Math.Log(attackStrenght / (double)unitDurability) + B, 2) * 100);
+	}
+	int HitProbability(double atackSkils) {
+		//funkcja zwraca prawdopodobienstwo zranienia
+		return (int)(Math.Round(C * Math.Log(atackSkils / (double)unitAttackSkil) + D, 2) * 100);
+	}
+
+	public void TakeAttackDamage(int howManyHits, int hitterAttackSkil, int hitterStrenght) {
+		for (int whichHit = 0 ; whichHit < howManyHits ; ++whichHit) {
+			bool[] hitChance = new bool[100];
+			int hitProbability = HitProbability((double)hitterAttackSkil);
+
+			for (int i = 0 ; i < hitProbability ; ++i)
+				hitChance[i] = true;
+			for (int i = hitProbability ; i < 100 ; ++i)
+				hitChance[i] = false;
+
+			if (hitChance[UnityEngine.Random.Range(0, 100)]) {
+				bool[] damageChance = new bool[100];
+				int damageProbability = DamageProbability((double)hitterStrenght);
+
+				for (int i = 0 ; i < damageProbability ; ++i)
+					damageChance[i] = true;
+				for (int i = damageProbability ; i < 100 ; ++i)
+					damageChance[i] = false;
+				if (damageChance[UnityEngine.Random.Range(0, 100)]) {
+					bool[] armourProtectionChance = new bool[10];
+					for (int i = 0 ; i < unitArmour ; ++i)
+						armourProtectionChance[i] = true;
+					for (int i = unitArmour ; i < 10 ; ++i)
+						armourProtectionChance[i] = false;
+
+					if (armourProtectionChance[UnityEngine.Random.Range(0, 10)]) {
+						squad[UnityEngine.Random.Range(0, squad.Count)].GetComponent<UnitProperties>().TakeFireDamege(hitterStrenght);
+						Obrazenia[whichHit].GetComponent<Text>().text = "Archer " + whichHit.ToString() + " z Archer Squad " + whichInArmy.ToString() + " O " + hitterStrenght.ToString();
+					}
+					else {
+						Obrazenia[whichHit].GetComponent<Text>().text = "Archer " + whichHit.ToString() + " z Archer Squad " + whichInArmy.ToString() + " A";
+					}
+				}
+				else {
+					Obrazenia[whichHit].GetComponent<Text>().text = "Archer " + whichHit.ToString() + " z Archer Squad " + whichInArmy.ToString() + " Z";
+				}
+			}
+			else {
+				Obrazenia[whichHit].GetComponent<Text>().text = "Archer " + whichHit.ToString() + " z Archer Squad " + whichInArmy.ToString() + " T";
+			}
+		}
+	}
+
+
+	public void Attack(GameObject who) {
+		ObrazeniaBox.SetActive(true);
+		/*MoveTo(who.GetComponent<SquadProprties>().squadRootHex);
+		for (int i = 0 ; i < squad.Count ; ++i) {
+			GameObject hex;
+			int j = i;
+			int k = 0;
+			do {
+				Debug.Log(k);
+				Debug.Log(j);
+				int which = UnityEngine.Random.Range(0, 6);
+				hex = GetComponent<SquadProprties>().squad[j].GetComponent<UnitProperties>().unitHex.GetComponent<hexProperties>().hexNeighbors[which];
+				++k;
+				if (k > 6) {
+					j = (j + 1) % 6;
+					k = 0;
+				}
+
+			} while (hex.GetComponent<hexProperties>().IsAvaliable() || hex.GetComponent<hexProperties>().IsFree());
+			squad[i].GetComponent<UnitProperties>().MoveTo(hex);*/
+			who.GetComponent<SquadProprties>().TakeAttackDamage(squad.Count, unitAttackSkil, unitStrength);
+		/*}
+		List<GameObject> UH = new List<GameObject>();
+		foreach (GameObject unit in squad)
+			UH.Add(unit.GetComponent<UnitProperties>().unitHex);
+		SetSquadRoot(UH);*/
 	}
 }

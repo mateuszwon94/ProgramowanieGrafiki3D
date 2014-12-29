@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SelectUnit : MonoBehaviour {
+	/*
+	 * Skrypt odpowiedzialny za zaznaczanie oddzialy
+	 */
 	public GameObject whichSquadIsSelect = null;
 	public GameObject curSquad = null;
 	public GameObject curHex = null;
@@ -16,11 +19,13 @@ public class SelectUnit : MonoBehaviour {
 	float fadeTolerance = 0.05f;
 
 	public void ReSelectUnit(List<GameObject> oldHexes, List<GameObject> newHexes) {
+		//Zaznaczenie innych hexow
 		UnSelectHexes(oldHexes);
 		SelectHexes(newHexes);
 	}
 
 	void SelectHexes(List<GameObject> hexes) {
+		//Zaznaczenie hexow
 		while ((1 - hexes[0].GetComponent<hexProperties>().GetSelectionAlpha(1)) > fadeTolerance) {
 			foreach (GameObject hex in hexes) {
 				hex.GetComponent<hexProperties>().SetSelectionAlpha(Mathf.Lerp(hex.GetComponent<hexProperties>().GetSelectionAlpha(1), 1, Time.deltaTime * selectionFadeSpeed), 1);
@@ -29,6 +34,7 @@ public class SelectUnit : MonoBehaviour {
 	}
 
 	void UnSelectHexes(List<GameObject> hexes) {
+		//Odznaczenie hexow
 		while (hexes[0].GetComponent<hexProperties>().GetSelectionAlpha(1) > fadeTolerance) {
 			foreach (GameObject hex in hexes) {
 				hex.GetComponent<hexProperties>().SetSelectionAlpha(Mathf.Lerp(hex.GetComponent<hexProperties>().GetSelectionAlpha(1), 0, Time.deltaTime * selectionFadeSpeed), 1);
@@ -37,6 +43,7 @@ public class SelectUnit : MonoBehaviour {
 	}
 
 	public void Update() {
+		//funkcja sprawdzajaca na bierzaco ktore hexy moga byc zaznaczone
 		if (GUI.GetComponent<GUIInput>().GetGameMode() >= 0) {
 			curHex = terrain.GetComponent<MouseOnHex>().currentHex;
 			if (curHex != null && !curHex.GetComponent<hexProperties>().IsFree() && curHex.GetComponent<hexProperties>().GetFromHex().GetComponent<UnitProperties>().inWhichSquad.GetComponent<SquadProprties>().isControlByHuman)
